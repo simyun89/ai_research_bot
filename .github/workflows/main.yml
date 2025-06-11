@@ -1,0 +1,27 @@
+name: weekly-news-bot
+
+on:
+  schedule:
+    # 매주 월요일 09:00 (KST, UTC+9 → 00:00 UTC)
+    - cron: '0 0 * * 1'
+  workflow_dispatch:          # 필요 시 수동 실행
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run News Bot
+        env:
+          OPENAI_API_KEY:     ${{ secrets.OPENAI_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+          TEAMS_WEBHOOK_URL:  ${{ secrets.TEAMS_WEBHOOK_URL }}
+        run: python news_bot.py
