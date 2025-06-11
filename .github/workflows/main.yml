@@ -2,12 +2,20 @@ name: weekly-news-bot
 
 on:
   schedule:
-    - cron: '0 0 * * 1'    # 월요일 09:00 KST
-  workflow_dispatch:
+    # 매주 월요일 09:00 (KST, UTC+9 → 00:00 UTC)
+    - cron: '0 0 * * 1'
+  workflow_dispatch:          # 수동 실행 허용
 
 jobs:
   run:
     runs-on: ubuntu-latest
+
+    # ⬇️ 여기서 한 번만 선언하면 모든 스텝이 사용
+    env:
+      OPENAI_API_KEY:     ${{ secrets.OPENAI_API_KEY }}
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+      TEAMS_WEBHOOK_URL:  ${{ secrets.TEAMS_WEBHOOK_URL }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -18,19 +26,15 @@ jobs:
       - name: Install deps
         run: pip install -r requirements.txt
 
-      ####################################################################
-      # ↓↓↓  여기가 임시 디버그 스텝 ------------------------------------
-      - name: 🔍 Check secrets existence       # ← 스텝 이름은 자유
-        run: |
-          if [ -z "$OPENAI_API_KEY" ]; then echo "❌ OPENAI_API_KEY missing"; exit 1; fi
-          if [ -z "$PERPLEXITY_API_KEY" ]; then echo "❌ PERPLEXITY_API_KEY missing"; exit 1; fi
-          if [ -z "$TEAMS_WEBHOOK_URL" ]; then echo "❌ TEAMS_WEBHOOK_URL missing"; exit 1; fi
-          echo "✅ All secrets injected"
-      ####################################################################
+      # ----- (선택) Secrets 주입 확인용 임시 스텝 -----
+      # - name: 🔍 Check secrets existence
+      #   run: |
+      #     if [ -z "$OPENAI_API_KEY" ]; then echo "❌ OPENAI_API_KEY missing"; exit 1; fi
+      #     if [ -z "$PERPLEXITY_API_KEY" ]; then echo "❌ PERPLEXITY_API_KEY missing"; exit 1; fi
+      #     if [ -z "$TEAMS_WEBHOOK_URL" ]; then echo "❌ TEAMS_WEBHOOK_URL missing"; exit 1; fi
+      #     echo "✅ All secrets injected"
+      # -----------------------------------------------
 
       - name: Run News Bot
-        env:
-          OPENAI_API_KEY:     ${{ secrets.OPENAI_API_KEY }}
-          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
-          TEAMS_WEBHOOK_URL:  ${{ secrets.TEAMS_WEBHOOK_URL }}
         run: python news_bot.py
+
