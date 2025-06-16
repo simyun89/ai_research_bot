@@ -146,7 +146,7 @@ gpt_prompt = f"""
 # === STEP 3: GPT에게 분석 요청 ===
 client = openai.OpenAI(api_key=openai.api_key)
 response = client.chat.completions.create(
-    model="gpt-4.1",  # 모델명 정확하게
+    model="ft:gpt-4.1-2025-04-14:::BiquLkMh",  # 모델명 정확하게
     messages=[{"role": "user", "content": gpt_prompt}]
 )
 report_text = response.choices[0].message.content
