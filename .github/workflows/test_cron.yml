@@ -10,4 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show date
-        run: echo "✅ cron 테스트 성공: $(date)"
+        run: |
+          echo "✅ cron 작동 테스트 성공: $(date)"
