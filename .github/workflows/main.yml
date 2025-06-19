@@ -2,8 +2,6 @@
 name: weekly-news-bot
 
 on:
-  schedule:
-    - cron: '0 22 * * 0'  # 테스트용 5분 간격 (확인 후 '0 23 * * 0' 로 복귀)  # 5분 (*/5 * * * *)
   workflow_dispatch:  
 
 jobs:
