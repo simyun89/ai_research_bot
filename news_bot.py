@@ -21,7 +21,7 @@ company_intro = """
 """                                   # ← 원하는 만큼 자세히 넣기
 perplexity_api_key = os.environ["PERPLEXITY_API_KEY"]
 openai_api_key     = os.environ["OPENAI_API_KEY"]
-teams_webhook_url  = os.environ["TEAMS_WEBHOOK_URL"]
+teams_webhook_url  = os.environ["TEAMS_WEBHOOK_URL_TEST"]
 
 pplx_headers = {
     "Authorization": f"Bearer {perplexity_api_key}",
