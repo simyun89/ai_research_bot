@@ -1,0 +1,15 @@
+name: dummy-test-weekdays
+
+on:
+  schedule:
+    - cron: '0 5 * * 1-5'  # 월~금 오후 2시 (한국시간)
+  workflow_dispatch:
+
+jobs:
+  dummy-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 허수 Step (테스트용)
+        run: |
+          echo "✅ 허수 테스트 실행 중입니다."
+          echo "실행 시각: $(date)"
