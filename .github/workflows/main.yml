@@ -11,7 +11,7 @@ jobs:
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
-      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL_TEST }}
+      TEAMS_WEBHOOK_URL_TEST: ${{ secrets.TEAMS_WEBHOOK_URL_TEST }}
 
     steps:
       - uses: actions/checkout@v4
