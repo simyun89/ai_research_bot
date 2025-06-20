@@ -11,6 +11,7 @@ import requests, json, openai
 import re
 from urllib.parse import quote
 import os
+from datetime import datetime, timedelta
 
 # === 설정 ===
 company_intro = """
@@ -22,6 +23,10 @@ company_intro = """
 perplexity_api_key = os.environ["PERPLEXITY_API_KEY"]
 openai_api_key     = os.environ["OPENAI_API_KEY"]
 teams_webhook_url  = os.environ["TEAMS_WEBHOOK_URL_TEST"]
+
+today = datetime.now().strftime('%Y-%m-%d')
+seven_days_ago = (datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d')
+
 
 pplx_headers = {
     "Authorization": f"Bearer {perplexity_api_key}",
@@ -58,7 +63,7 @@ for kw in keywords:
         "messages": [
             {"role": "user",
              "content": f"""
-아래 키워드 각각에 대해 **오늘 기준 최근 7일 이내에 발행된 뉴스 기사**들을 모두 수집하여 표로 정리해주세요.
+아래 키워드 각각에 대해 **{seven_days_ago}부터 {today}까지(오늘 기준 최근 8일)** 발행된 뉴스 기사만 표로 정리해주세요
 
 📌 키워드 목록:
 {kw}
@@ -70,20 +75,18 @@ for kw in keywords:
 - 원문 링크 (https:// 로 시작하는 실제 기사 URL)
 
 📌 필수 조건:
-- **오늘 날짜 기준 최근 7일 이내** 기사만 포함 (7일 이상 된 기사 포함 시 오류로 간주)
+- 기사 메타데이터의 발행 날짜가 {seven_days_ago} 이상 {today} 이하인 기사만 포함 (범위를 벗어날시 오류)
+- 기사별로 메타데이터상 발행 날짜(YYYY-MM-DD)가 반드시 표에 포함되어야 함
 - 블로그, 광고성, 요약 페이지 제외
 - 링크가 없는 기사 제외
 - 키워드별로 구분하여 표로 정리
-- 뉴스 개수 제한 없이 모두 포함
 
-❗주의:
-요약 대상 뉴스는 반드시 **공식 언론사에서 발행된 기사**이며, 최근 7일 이내에 보도된 기사여야 합니다.
 """
 }
         ],
         "search": {
             "enable": True,
-            "num_results": 5,
+            "num_results": 7,
             "time_range": "7d",
             "language": "ko",
             "query": kw
