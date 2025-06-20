@@ -22,7 +22,7 @@ company_intro = """
 """                                   # ← 원하는 만큼 자세히 넣기
 perplexity_api_key = os.environ["PERPLEXITY_API_KEY"]
 openai_api_key     = os.environ["OPENAI_API_KEY"]
-teams_webhook_url  = os.environ["TEAMS_WEBHOOK_URL_TEST"]
+teams_webhook_url  = os.environ["TEAMS_WEBHOOK_URL"]
 
 today = datetime.now().strftime('%Y-%m-%d')
 seven_days_ago = (datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d')
@@ -137,6 +137,7 @@ gpt_prompt = f"""
   - 기사에서 직접 언급된 숫자·기관·지표가 있을 경우 **반드시 인라인 인용**(예: “2025년까지 12억 달러 규모”) 후 사용.
   - '이동의즐거움', '마이비', '부산하나로카드', '캐시비', '한페이시스'는 자사입니다 인수/투자/제휴 업체에 포함되었다면 제외 필요, 
   - '티머니'는 경쟁사로 내용에 포함될 경우 인수/투자는 불가능하지만 협업까지는 가능합니다
+  - 분석은 다시 한 번 심호흡을 하고 신중하게 검토해봅시다. 이것은 복잡한 전략적 결정으로, 우리의 가정들을 점검하고 여러 층위의 함의를 고려해야 합니다
 
 - **① 인수·투자 기회**
   - 기사 속 대상 회사·기술의 시너지 영역과 Risk 요인을 서술.
